@@ -15,7 +15,7 @@ class LoginState(rx.State):
         async with self:
             self.loader = True
             self.error = False
-            response = rq.post("https://api.baackend.com/", json=data, headers={"Content-Type":"application/json"})
+            response = rq.post("https://pagina-web-production-4d43.up.railway.app", json=data, headers={"Content-Type":"application/json"})
             if response.status_code == 200:
                 self.response = response.json()
                 self.loader = False
@@ -62,7 +62,7 @@ def login() -> rx.Component:
             rx.heading("Inicio de sesión"),
             rx.form.root(
                 rx.flex(
-                    field_from_component_general("UsuariO", "Ingrese su usuariO", "ingrese un correo valasdido", "username",
+                    field_from_component_general("Usuario", "Ingrese su usuario", "ingrese un correo valido", "username",
                                                  LoginState.set_username, LoginState.user_invalid),
                     field_form_component("Contraseña", "Ingrese su contraseña", "password",
                                          LoginState.set_password, "password"),
