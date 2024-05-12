@@ -1,4 +1,6 @@
-from fastapi import FastAPI, HTTPException, Depends, Response
+from fastapi import FastAPI, HTTPException, status 
+from typing import List
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -7,22 +9,19 @@ USERS = {
     "ivanna.risaro@hotmail.com": "123456789"
 }
 
-# Middleware para verificar la autenticación
-def authenticate_user(email: str, password: str):
-    if email in USERS and USERS[email] == password:
-        return True
-    return False
+class Login(BaseModel):
+    username: str
+    password: str
 
-@app.post("/auth")
-async def login_auth(email: str, password: str, response: Response):
-    if authenticate_user(email, password):
-        # Autenticación exitosa
-        response.status_code = 200
-        response.headers["Location"] = "/"  # Redirige a la página principal
-        return {"message": "Autenticación exitosa"}
-    else:
-        raise HTTPException(status_code=401, detail="Credenciales inválidas")
+class LoginResponse(BaseModel):
+    user: str
+    permissions: List[str]
+    message: str
 
+@app.post("/login", response_model=LoginResponse)
+def authenticate():
+    raise HTTPException(status_code=status.HTTP_200_OK)
+    
 
 
 
@@ -35,9 +34,9 @@ async def hello(user:str) -> str:
     elif user == "theo":
         return "hello theo"
     else:
-        return "hello gentuza "
+        return "hello gente "
     
     
-async def hello() -> str:
+async def hello_manu() -> str:
     return "Hello manu"
 
