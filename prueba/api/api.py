@@ -20,7 +20,7 @@ class LoginResponse(BaseModel):
 
 @app.post("/login", response_model=LoginResponse)
 def authenticate():
-    raise HTTPException(status_code=status.HTTP_200_OK)
+    raise HTTPException(status_code=200)
     
 
 

@@ -1,6 +1,6 @@
 import reflex as rx
 
-rx.page()
+@rx.page()
 def index() -> rx.Component:
     return rx.center(
         rx.link(

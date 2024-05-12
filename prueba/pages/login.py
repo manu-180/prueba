@@ -3,6 +3,19 @@ import requests as rq
 import re
 
 
+
+class AuthStatee(rx.State):
+    # Esta función se llama cuando se envía el formulario
+    def handle_submit(self, form_data: dict):
+        username = form_data.get("username")
+        password = form_data.get("password")
+        # Verifica si el usuario y la contraseña son correctos
+        if username == "ivanna.risaro@hotmail.com" and password == "123456789":
+            # Redirecciona a otra página si los datos son correctos
+            return rx.redirect("/")
+
+
+
 class LoginState(rx.State):
     loader: bool = False
     username:str = "example@mail.com"
@@ -94,7 +107,7 @@ def login() -> rx.Component:
                         style={"margin_top": "10px"}
                     ),
                 ),
-                on_submit = LoginState.login_service,
+                on_submit = AuthStatee.handle_submit,
                 reset_on_submit=True,
                 width="80%"
             )
